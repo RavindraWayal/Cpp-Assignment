@@ -1,0 +1,312 @@
+//1) using cin and cout, accept name,address,age of a person and print it.
+#include <iostream>
+using namespace std;
+
+int main()
+{
+	char name[20];
+	int age;
+	char add[20];
+	cout << "enter the name, age and address" << endl;
+
+	cin >> name;
+	cin >> age;
+	cin >> add;
+
+	cout <<"Name is :" << name << endl;
+	cout <<"Age is :" << age << endl;
+	cout <<"Addres is :" << add << endl;
+
+	return 0;
+}
+========================================================================================================
+
+/*2) create following structure
+struct book
+{
+	char bid[5];
+	char name[30];
+	int price;
+};
+ask user how many records he wants to create and accordingly allocate memory.
+accept values from user and display.
+(Hint :-use  "new" operator)*/
+
+
+#include <iostream>
+using namespace std;
+
+struct book
+{
+	char bid[5];
+	char name[30];
+	int price;
+};
+
+
+int main()
+{
+	cout << "Enter no you want :";
+	int no=0;
+	cin >> no;
+
+	book* b = new book[no];
+
+	for (int i = 0; i < no; i++)
+	{
+		    cout << "Book id :";
+			cin >> b[i].bid;				
+			cout << "Enter Name :";
+			cin >> b[i].name;
+			cout << "Enter price :";
+			cout << b[i].price<<endl;
+	}
+
+	for(int i=0;i<no;i++)
+	{
+		cout << "Book id :";
+		cout<< b[i].bid;
+		cout << "Enter Name :";
+		cout << b[i].name;
+		cout << "Enter price :";
+		cout << b[i].price;
+	}
+	return 0;
+}
+============================================================================================================
+
+/*3) create a structure "Employee"
+with members
+int id
+char name[20];
+char desig[20];
+now access it using
+a) array
+b) DMA*/
+
+
+#include <iostream>
+using namespace std;
+	
+struct Employee
+{
+	int id;
+	char name[20];
+	char desig[20];
+};
+	
+int main()
+{
+	// Array --
+	//Employee emp[2];	
+	Employee emp[2];
+	for (int i = 0; i < 2; i++)
+	{
+		emp[i].id = i + 1;
+		cout << "Enter the Name :";
+		cin.getline(emp[i].name, 20);
+		cout << "ENter the Designetor :";
+		cin.getline(emp[i].desig, 20);
+		cout << endl;
+	}
+	//
+	for (int i = 0; i < 2; i++)
+	{
+		cout << "Employee :" << i + 1<<endl;
+		cout << "Employee Name is :" << emp[i].name << endl;
+		cout << "Designation is :" << emp[i].desig << endl;
+		cout<< endl;
+	}
+	
+
+
+	return 0;
+}
+
+=============================================================================================================
+4) create a library in C++ in which,
+write a function which will accept 2 numbers and return the difference between 2 numbers
+write appropriate header file.
+
+write a client code to access this library.
+================================================================================================================
+
+/*5) given
+void disp(int); function.
+
+now create a function pointer and call this function using function pointer.*/
+
+#include <iostream>
+using namespace std;
+
+ void disp(int x)
+{
+	cout << x;
+}
+int main()
+{
+	int num = 10;
+	void (*ptr)(int) = disp;
+	ptr(num);
+	disp(num);
+	(*ptr)(10);
+}
+================================================================================================================
+
+//6) write a function to swap 2 given numbers using pointers.
+
+#include <iostream>
+using namespace std;
+
+void swap(int* ,int*);
+int main()
+{
+	int a = 10;
+	int b = 20;
+	int* ptr1 = &a;
+	int* ptr2 = &b;
+	cout << "Before swap :" << a << " " << b<<endl;
+	swap(&a, &b);
+	cout << "After swap :" << a << " " << b;
+	return 0;
+}
+void swap(int *ptr1,int *ptr2)
+{
+	int temp = *ptr1;
+	*ptr1 = *ptr2;
+	*ptr2 = temp;
+}
+==============================================================================================================
+
+/*7) accept from user how many chracters he has in his name, now allocate a 
+memory accordingly and accept his name.[use new operator]*/
+
+
+#include <iostream>
+using namespace std;
+ int main()
+{
+	 int num;
+	   cout << "Enter hoe many character you want in your name :";
+	   cin >> num;
+
+	   char* ch = new char[num + 1];
+	   for (int i = 0; i < num; i++)
+	   {
+		   cin >> ch[i];
+	   }
+	   int a = num + 1;
+	   ch[a] = '\o';
+	   cout << "Name is :";
+	   for (int i = 0; i < num; i++)
+	   {
+		   cout <<ch[i];
+	   }
+}
+==================================================================================================================
+
+
+/*8) write a function which can accept minimum 3 characters and maximum 5 characters and 
+display them. (use "default arguments")*/
+
+
+#include <iostream>
+using namespace std;
+void accept(const char* str, int minlength = 3, int maxlength = 5)
+{
+	int length = 0;
+	while (str[length] != '\0')
+	{
+		length++;
+	}
+	if (length >= minlength && length <= maxlength)
+	{
+		cout << "correct input :" << str << endl;
+		cout << endl;
+	}
+	else
+	{
+		cout << "not correct :"<<endl;
+	}
+}
+void main()
+{
+	accept("hvhacjk");
+	accept("a");
+	accept("bajc");
+
+}
+=====================================================================================================================
+/*9)write a function which takes 3 arguments
+variable, pointer and a reference.(any datatype)
+invoke this function and show how "call by value","call by address" and "call by reference" will work.*/
+
+#include <iostream>
+using namespace std;
+
+void accept(int a, int *b, int &c)
+{
+	a += 10;
+	*b += 10;
+    c += 10;
+	
+
+}
+void main()
+{
+	int num = 10;
+	int num1 = 20;
+	int num2 = 30;
+	int* ptr = &num1;
+	accept(num, ptr, num2);
+	cout << num << endl;
+	cout << num1 << endl;
+	cout << num2 << endl;
+
+}
+====================================================================================================================
+
+/*10)define 3 different structures and initialize their members.
+now write 3 different functions,but with the same name.
+these functions will accept each structure respectively and display their members.*/
+
+#include <iostream>
+using namespace std;
+
+
+struct Employee{
+	int id;
+}emp;
+struct Book{
+	string name;
+}book;
+struct student
+{
+	int rn;
+}sdt;
+
+void Employee()
+{
+	emp.id = 13;
+		cout << "Employee id is :" << emp.id << endl;
+}
+void Book()
+{
+	
+	book.name = "Mahabharat";
+	cout << "Book name is :" << book.name << endl;
+}
+void student()
+{
+	
+	sdt.rn = 60;
+	cout << "Roll number is :" << sdt.rn;
+}	
+
+void main()
+{
+	Employee();
+	Book();
+	student();
+}
+======================================================================================================================

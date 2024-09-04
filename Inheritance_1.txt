@@ -1,0 +1,307 @@
+1)
+class base
+{
+	public:
+		base(char *ptr)
+		{
+		}
+};
+class sub:public base
+{
+};
+
+Following statements should be possible
+
+sub s;
+
+sub *s1=new sub(40);
+
+sub *s2=new sub('a',4.5);
+
+-------------------------
+
+#include<iostream>
+using namespace std;
+
+class base
+{
+	char* ptr;
+public:
+	base(char* ptr)
+	{
+		this->ptr = ptr;
+		cout << "base" << endl;
+	}
+	void disp()
+	{
+		cout << *ptr << endl;
+	}
+};
+class sub :public base
+{
+public:
+	sub():base(NULL)
+	{
+		cout << "sub" << endl;
+	}
+	sub(int k) :base(NULL)
+	{
+		cout << k << endl;
+	}
+	sub(char a, double k) :base(&a)
+	{
+		cout << a << endl;
+		cout << k << endl;
+		disp();
+	}
+};
+
+void main()
+{
+	sub s;
+
+	sub* s1 = new sub(40);
+
+	sub* s2 = new sub('a', 4.5);
+
+	delete[]s1;
+	delete[]s2;
+}-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2) 
+class parent
+{
+	public:
+		disp1()
+		disp2()
+		disp3()
+		disp4()
+};
+class sub:private parent
+{
+	public:
+		disp5()
+};
+
+make sure u can do the following
+
+sub s(30);
+s.disp5();
+s.disp3();
+s.disp1();
+
+-------------------------
+
+
+#include<iostream>
+using namespace std;
+
+class parent
+{
+public:
+	void disp1()
+	{
+		cout << "disp1" << endl;
+	}
+	void disp2()
+	{
+		cout << "disp2" << endl;
+	}
+	void disp3()
+	{
+		cout << "disp3" << endl;
+	}
+	void disp4()
+	{
+		cout << "disp4" << endl;
+	}
+};
+class sub :private parent
+{
+public:
+	sub(int n)
+	{
+
+	}
+	void disp5()
+	{
+		cout << "disp5" << endl;
+	}
+	using parent::disp3;
+	using parent::disp1;
+};
+
+int main()
+{
+	sub s(30);
+	s.disp5();
+	s.disp3();
+	s.disp1();
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3) create a class Person with "void walk()" method and "walks normally" statement inside it. 
+Now derive a class "Athelite" from Person and redefine "void walk()" with a statement "walks faster". 
+In the main function create an instance of "Athelite" and invoke "walk()" method. Observe what happens.
+
+
+#include<iostream>
+using namespace std;
+
+class Person
+{
+public:
+	void walk()
+	{
+		cout << "walks normally" << endl;
+	}
+};
+class Athelite :private Person
+{
+public:
+	void walk()
+	{
+		cout << "walks faster" << endl;
+	}
+};
+
+int main()
+{
+	Athelite a;
+	a.walk();//walks faster
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+4)Define three classes A, B, C carrying one integer member in each of them. 
+Let C be derived from A and B. Write constructors and destructors in each of these classes that prompt some message from each class. 
+Also the constructor of C should accept three values, one for its own member and other two for A and B. 
+The C constructor should see that the two values goes to respective constructors of A and B. 
+What is the order in which constructors and destructors get called upon? How can you change this order?
+
+
+#include<iostream>
+using namespace std;
+
+class A
+{
+	int n;
+public:
+	A(int n1)
+	{
+		n = n1;
+		cout << "A" << n << endl;
+	}
+	~A()
+	{
+		cout << "Destructor A" << endl;
+	}
+};
+class B
+{
+	int n;
+public:
+	B(int n2)
+	{
+		n = n2;
+		cout << "B" << n << endl;
+	}
+	~B()
+	{
+		cout << "Destructor B" << endl;
+	}
+};
+class C:A,B
+{
+	int n;
+public:
+	C(int n3,int n2,int n1):A(n1), B(n2)
+	{
+		n = n3;
+		cout << "C" << n << endl;
+	}
+	~C()
+	{
+		cout << "Destructor C" << endl;
+	}
+};
+
+
+void main()
+{
+	C c(10, 20, 30);
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5) create a class Base with "int num1" ,parameterized constructor and destructor. 
+Derive class Sub1 from Base with "int num2" ,parameterized constructor and destructor. 
+Now derive class Sub2 from Sub1 with "int num3" ,parameterized constructor and destructor.
+in the main function create the object of Sub1 and notice constructor and destructor invocation.
+
+
+#include<iostream>
+using namespace std;
+
+class Base
+{
+public:
+	int num1;
+	Base(int n)
+	{
+		this->num1 = n;
+		cout << "In Base \t value : " << num1 << endl;
+	}
+	~Base()
+	{
+		cout << "Destructor of Base" << endl;
+	}
+};
+
+class Sub1:public Base
+{
+public:
+	int num2;
+	class Sub1(int n, int n1):Base(n1)
+	{
+		this->num2 = n;
+		cout << "In Sub1 \t value : " << num2 << endl;
+	}
+	
+	~Sub1()
+	{
+		cout << "Destructor of Sub1" << endl;
+	}
+};
+class Sub2 :public Sub1
+{
+public:
+	int num3;
+	Sub2(int n3, int n2, int n1):Sub1(n2,n1)
+	{
+		this->num3 = n3;
+		cout << "In Sub2 \t value : " << num3 << endl;
+	}
+	~Sub2()
+	{
+		cout << "Destructor of Sub2" << endl;
+	}
+};
+
+int main()
+{
+	//Sub2 s(10,20,30);
+	Sub1 s(10, 20);
+}
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+6) create a Base1 and Base2 classes in the library.
+constructors, member variables and functions you can have in the above classes of your choice.
+now create a client application where you have to create a child class by the name "Sub" of above classes.
+in the main function create an instance of child class and try to access methods of Base1 and Base2.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+

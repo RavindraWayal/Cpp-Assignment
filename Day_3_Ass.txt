@@ -1,0 +1,211 @@
+/*1) create a class with constructors and destructors.
+create array of instances and observe how program behaves.*/
+
+#include <iostream>
+using namespace std;
+
+
+class first
+{
+public:
+	first()	//no-arg constructor	
+	{
+		cout << "this is no-arg Constructor" << endl;
+	}
+	~first() //destructor cll after scop is done
+	{
+		cout << "this is Destructor"<<endl;
+	}
+};
+int main()
+{
+	
+	first f[1];
+	//program will automaticaly call destructor when scope is done 
+	return 0;
+
+}
+================================================================================================
+/*2) create a class with constructors and destructor.
+create 2 instances on stack and 1 instance on heap.observe the invocation of constructors and destructors.*/
+
+#include <iostream>
+using namespace std;
+
+
+class myclass
+{
+public:
+	myclass()	//no-arg constructor	
+	{
+		cout << "this is no-arg Constructor" << endl;
+	}
+	~myclass() //destructor cll after scop is done
+	{
+		cout << "this is Destructor"<<endl;
+	}
+};
+int main()
+{
+	
+	myclass m1[1]; //
+	myclass m2[1];
+	myclass *m3 = new myclass[1];//
+	delete []m3;
+	return 0;
+
+}
+=================================================================================================================
+/*
+3)create a class "MyClass1"
+with members and member function "disp1().
+create another class "MyClass2"
+with members and member function "disp2().
+now try to invoke disp1() from disp2()
+in the main() function, create instances of both the classes and invoke their member functions.
+*/
+
+#include <iostream>
+
+using namespace std;
+
+class myclass1
+{
+	int a = 10;
+public :
+	void displ1()
+	{
+		
+		cout << "this is displ :1"<<endl;
+	}
+};
+
+ class myclass2
+ {
+	int b = 20;
+public:
+	void displ2()
+	{
+		myclass1 m3;
+	    m3.displ1();
+		cout << "this is displ :2"<<endl;
+
+	}
+};
+int main()
+{
+	
+	myclass1 m1;
+	myclass2 m2;
+	m1.displ1();
+	m2.displ2();
+	return 0;
+
+}
+
+================================================================================================================
+/*
+4) create a class.
+accept from user, how many instances are required.
+Accordingly create array of instances dynamically.
+Now make sure that u call destructor for each and every instances.
+*/
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass {
+
+public:
+	Myclass() {
+		cout << "constructor"<<endl;
+	}
+	~Myclass() {
+		cout << "distructor"<<endl;
+	}
+};
+
+int main()
+{
+	int a;
+	cin >> a;
+	Myclass* ptr = new Myclass[a];
+	for (int i = 0; i < a; i++) {
+		ptr[i];
+	}
+	delete[]ptr;
+	return 0;
+}
+
+=======================================================================================================================
+/*
+5) create a class, define different types of constructors. in main create n number of objects. 
+At the end display how many constructors are created for a class.
+*/
+
+#include <iostream>
+
+using namespace std;
+
+class Myclass {
+public:static int c;
+public:
+	Myclass() 
+	{
+		cout << "constructor"<<endl;
+		c++;
+	}
+
+	Myclass(int a) 
+	{
+		cout << "Parameterised constructor" << endl;
+		c++;
+
+	}
+
+	~Myclass() 
+	{
+		cout << "distructor"<<endl;
+	
+	}
+};
+int Myclass::c;
+
+int main()
+{
+	int a;
+	int cnt = 0;
+	cout << "Enter How many instances you want :";
+	cin >> a;
+	
+	Myclass* ptr;
+	for (int i = 0; i < a; i++) {
+		ptr[i] = Myclass(10);
+	}
+
+	delete[]ptr;
+	cout<<"constructors are called" << Myclass::c<<"times";
+	
+	return 0;
+}
+====================================================================================================================
+6) 
+Developer Side
+	create a class "book" with
+		int bookid
+		char *bookname
+		int price
+
+	define parameterized constructor only for this class.
+	define 3 getter functions.
+
+create necessary header and lib file and distribute it to the client.
+
+Client Side
+
+	 create 2 instances
+	1 on stack and 1 on heap.
+	pass the necessary values while creating instances.
+	call the getter functions.
+======================================================================================================================	

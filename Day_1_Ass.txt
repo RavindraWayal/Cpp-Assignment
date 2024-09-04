@@ -1,0 +1,245 @@
+/*1) store value 20 inside "num" variable.
+create a pointer to this variable. print the value of "num" using pointer.
+increment the pointer by 2 and show with the diagram what happens.*/
+
+#include <iostream>
+using namespace std;
+int main()
+{
+    int num=20;
+    int *ptr=&num;
+    
+    cout<<"value of num is: ";
+    cout<<*ptr<<endl;
+    
+    cout<<"increment the pointer by 2: ";
+    ptr+=2;
+    cout<<*ptr;
+    
+    return 0;
+}
+==============================================================================================
+
+/*2) accept two numbers from the user and with the help of pointers perform following arithmetic operations:
+	+   -    *   /
+	[ diagram compulsory ]*/
+
+#include <iostream>
+using namespace std;
+int main()
+{   
+    int num1, num2;
+
+    cout << "Enter 2 numbers :";
+    cin >> num1;
+    cin >> num2;
+
+    int* ptr1 = &num1;
+    int* ptr2 = &num2;
+
+    cout<<"Additon is :" << *ptr1 + *ptr2 << endl;
+
+    cout << "Substraction is :" << *ptr1 - *ptr2 << endl;
+
+    cout << "Multiplecation is :" << *ptr1 * *ptr2 << endl;
+
+    cout << "Division is :" << *ptr1 / *ptr2 << endl;
+
+    return 0;
+}
+=================================================================================================
+
+/*3) accept two numbers and swap them without using third variable.*/
+//4) write "Call By Address" program [ using pointer ]
+#include <iostream>
+using namespace std;
+ void swap(int *ptr1,int *ptr2);
+int main()
+{
+    
+ int n1;
+ int n2;
+    cout<<"Enter two numbers: ";
+    cin>>n1;
+    cin>>n2;
+    cout<<"Befor swap"<<endl;
+        cout<<n1<<endl;//10
+        cout<<n2<<endl;//20
+
+    swap(&n1,&n2);
+    cout<<"After swap"<<endl;
+        cout<<n1<<endl;//20
+        cout<<n2<<endl;//10
+
+    return 0;
+}
+
+void swap(int *ptr1, int *ptr2)
+{
+ 
+ *ptr1=*ptr1+*ptr2;  //n1=10+20=30
+ *ptr2=*ptr1-*ptr2;  //n2=30-20=10
+ *ptr1=*ptr1-*ptr2;  //n1=30-10=20
+
+}
+========================================================================================================
+/*
+5) Given
+	void disp(int,int*);
+write a program to define above function and invoke it.*/
+
+#include <iostream>
+using namespace std;
+ void disp(int ,int*);
+int main()
+{
+    
+   int n1;
+   int n2;
+   
+   cout<<"Enter two numbers: ";
+   cin>>n1;//5
+   cin>>n2;//5
+   disp(n1,&n2);
+   cout <<n1<<endl;
+   cout <<n2<<endl;
+    return 0;
+}
+void disp(int n1,int *ptr)
+{
+   n1+=10;  //5
+  *ptr+=10; //15
+
+}
+=========================================================================================================
+
+//Q 6)
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    
+    int num = 100;
+		int* ptr = &num;
+		++(*ptr);
+		cout << num << endl;//101
+		(*ptr)++;
+		cout << num << endl;//102
+		*(ptr++);
+		cout << num << endl;//102
+		
+		cout << *(ptr++) << endl;//garbeg value
+		
+    return 0;
+}
+=============================================================================================================
+
+/*7) Given following functions:
+	void disp1(int k);
+	int disp2(char *);
+	void disp3();
+	double* disp4(char ch);
+
+	declare "pointer to functions" for the above functions.*/
+	
+	
+#include <iostream>
+using namespace std;
+	void disp1(int k);
+	void (*ptr)(int k);
+	int disp2(char *);
+	void disp3();
+	double* disp4(char ch);
+
+int main()
+{
+    
+    int a = 100;
+    char c='a';
+    char ch='b';
+    
+    void(*ptr)(int x)=disp1; 
+       //functions pointer  int x=20;
+    //int *ptr=&x;
+    ptr(a);
+    
+    int (*ptr1)(char *)=disp2;   //function pointer
+    cout <<ptr1(&c)<<endl;
+    
+    void(*ptr2)()=disp3;j
+    ptr2();
+    
+    double* (*ptr4)(char ch)=disp4;
+    cout<<ptr4(ch);
+    
+
+    return 0;
+}
+
+
+void disp1(int k)
+{
+    cout << k <<endl;
+}
+
+
+int disp2(char *c)
+{
+    cout<< *c <<endl;
+    return *c;
+}
+void disp3(){
+    cout<<"this function ptr2"<<endl;
+}
+double* disp4(char ch){
+    cout<< ch <<endl;
+    double x=10.5;
+    double *pt=&x;
+    return pt;
+    
+}
+=====================================================================================================
+/* 9) given
+	int arr[]={10,20,30,40,50}
+
+write a function which can accept above array inside the pointer and using for loop traverse it..*/
+	
+	
+#include <iostream>
+using namespace std;
+	
+
+int main()
+{
+    int arr[]={10,20,30,40,50};
+    int *ptr =arr;
+    for(int i=0;i<5;i++){
+        cout<<ptr[i]<<"\t";
+    }
+}
+=======================================================================================================
+/* 10) given
+	char name[20]="Computer"
+	
+	now declare a pointer to the above string and increment the pointer in such a way that when you display the string using pointer, it should display "puter"
+
+.*/
+#include <iostream>
+using namespace std;
+	
+
+int main()
+{
+    char name[20]="Computer";
+    char *ptr =&name[3];
+    for(int i=0;name[i]!='\0';i++){
+        cout<<ptr[i]<<"\t";
+    }
+}
+=============================================================================================================
+
+
+
+
+

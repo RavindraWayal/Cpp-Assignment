@@ -1,0 +1,303 @@
+/* 1)
+class base
+{
+	public:
+		base(char *ptr)
+		{
+		}
+};
+class sub:public base
+{
+};
+
+Following statements should be possible
+
+sub s;
+
+sub *s1=new sub(40);
+
+sub *s2=new sub('a',4.5); */
+
+#include <iostream>
+using namespace std;
+
+class base
+{
+private:
+	char* ptr;
+public:
+	base()
+	{
+		cout << "in base default. "<<endl;
+	}
+	base(char* ptr)
+	{
+		cout << "in base param." << endl;
+	}
+};
+class sub :public base
+{
+private:
+	int k;
+	double d;
+public:
+	sub():base()
+	{
+		cout << "in sub defaul." << endl;
+	}
+	sub(int k):base(NULL)
+	{
+		this->k = k;
+		cout << "in sub param." << endl;
+	}
+	sub(int k, double d):base(NULL)
+	{
+		this->k = k;
+		this->d = d;
+		cout << "in sub param." << endl;
+	}
+};
+
+//Following statements should be possible
+
+void main()
+{
+	sub s;
+
+	sub* s1 = new sub(40);
+
+	sub* s2 = new sub('a', 4.5);
+}
+=======================================================================================================================
+
+
+/* 2) 
+class parent
+{
+	public:
+		disp1()
+		disp2()
+		disp3()
+		disp4()
+};
+class sub:private parent
+{
+	public:
+		disp5()
+};
+
+make sure u can do the following
+
+sub s(30);
+s.disp5();
+s.disp3();
+s.disp1(); */
+
+#include <iostream>
+using namespace std;
+
+class parent
+{
+public:
+	parent(int k)
+	{
+		cout << "In parameterise constructor of parent."<<endl;
+	}
+	
+	void disp1()
+	{
+		cout << "in disp1." << endl;
+	}
+	void disp2()
+	{
+		cout << "in disp2." << endl;
+	}
+	void disp3()
+	{
+		cout << "in disp3." << endl;
+	}
+	void disp4()
+	{
+		cout << "in disp4." << endl;
+	}
+};
+class sub :private parent
+{
+public:
+	sub(int k):parent(NULL)
+	{
+		
+		cout << "In parameterise constructor of sub." << endl;
+	}
+	
+	void disp5()
+	{
+		cout << "in disp5." << endl;
+
+	}
+};
+void main()
+{
+	sub s(30);
+	s.disp5();
+	s.disp3(); //Not Allowed bcs innherite mode is private.
+	s.disp1(); //Not Allowed bcs innherite mode is private.
+====================================================================================================================
+
+/* 2) 
+3) create a class Person with "void walk()" method and "walks normally" statement inside it. Now derive a
+class "Athelite" from Person and redefine "void walk()" with a statement "walks faster". 
+In the main function create an instance of "Athelite" and invoke "walk()" method. Observe what happens.*/
+
+#include <iostream>
+using namespace std;
+
+class Person
+{
+public:
+	void walk()
+	{
+		cout << "Walk normally." << endl;
+	}
+};
+class Athelite:Person
+{
+public:
+	void walk()
+	{
+		cout << "Walks faster." << endl;
+	}
+};
+void main()
+{
+	Athelite a;
+	a.walk();
+
+}
+======================================================================================================================
+/*4)Define three classes A, B, C carrying one integer member in each of them. Let C be derived from A and B. 
+Write constructors and destructors in each of these classes that prompt some message from each class.
+Also the constructor of C should accept three values, one for its own member and other two for A and B. 
+The C constructor should see that the two values goes to respective constructors of A and B.
+What is the order in which constructors and destructors get called upon? How can you change this order?*/
+
+#include <iostream>
+using namespace std;
+
+class A
+{
+private:
+	int a;
+public:
+	A(int a)
+	{
+		cout << "in A constructor." << endl;
+		this->a = a;
+	}
+	~A()
+	{
+		cout << "in A Destructor." << endl;
+	}
+};
+class B
+{
+private:
+	int b;
+public:
+	B(int b)
+	{
+		cout << "in B constructor." << endl;
+		this->b = b;
+	}
+	~B()
+	{
+		cout << "in B Destructor." << endl;
+	}
+};
+class C:A,B
+{
+private:
+	int c;
+public:
+	C(int c,int a,int b):A(a),B(b)
+	{
+		cout << "in C constructor." << endl;
+		this->c = c;
+	}
+	~C()
+	{
+		cout << "in C Destructor." << endl;
+	}
+};
+
+int main()
+{
+	C obj(10, 20, 30);
+}
+========================================================================================================================
+
+
+/*5) create a class Base with "int num1",parameterized constructor and destructor. Derive class Sub1 from Base with 
+"int num2" ,parameterized constructor and destructor. Now derive class Sub2 from Sub1 with "int num3",parameterized 
+constructor and destructor.in the main function create the object of Sub1 and notice constructor and destructor invocation.*/
+
+#include <iostream>
+using namespace std;
+
+class base
+{
+protected:
+	int num1;
+public:
+	base(int n):num1(n)
+	{
+		this->num1 = num1;
+		cout << "base parameterized constructor eith num1 =" << num1 << endl;
+	}
+	~base()
+	{
+		cout << "base Destructor" << endl;
+	}
+};
+
+class Sub1 :base
+{
+protected:
+	int num2;
+public:
+	Sub1(int n1,int n2):base(n1),num2(n2)
+	{
+		this->num2 = num2;
+		cout << "sub1 parameterized constructor eith num2 =" << num2 << endl;
+	}
+	~Sub1()
+	{
+		cout << "sub1 Destructor" << endl;
+	}
+
+};
+class Sub2 :Sub1
+{
+protected:
+	int num3;
+public:
+	Sub2(int n1,int n2,int n3):Sub1(n1,n2),num3(n3)
+	{
+		this->num3 = num3;
+		cout << "sub2 parameterized constructor eith num3 =" << num3 << endl;
+	}
+	~Sub2()
+	{
+		cout << "sub2 Destructor" << endl;
+	}
+};
+int main()
+{
+	Sub2 s(10,20,30);
+}
+=================================================================================================================
+6) create a Base1 and Base2 classes in the library.
+constructors, member variables and functions you can have in the above classes of your choice.
+
+now create a client application where you have to create a child class by the name "Sub" of above classes.
+in the main function create an instance of child class and try to access methods of Base1 and Base2.

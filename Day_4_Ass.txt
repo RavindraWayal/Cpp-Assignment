@@ -1,0 +1,543 @@
+	/*1) class First
+   {
+      char str1[20];
+   };
+   class Second
+   {
+      char str2[20];
+   };
+write a friend function,which will create a  new string containing str1,str2 and also display it.*/
+
+
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+class Second;	
+class First
+{
+private:
+    char str1[20];
+
+public:
+    First(const char* s)
+    {
+        strncpy(str1, s, sizeof(str1));
+    }
+
+    friend void combine(const First& first, const Second& second);
+};
+    class Second
+    {
+private:        
+    char str2[20];
+
+public:
+    Second(const char* s)
+    {
+        strncpy(str2, s, sizeof(str2));
+    }
+    friend void combine(const First& first, const Second& second);
+};
+
+void combine(const First& first, const Second& second)
+{
+    char combined[40];
+
+    strcpy(combined, first.str1);
+    strcat(combined, second.str2);
+
+    cout << "Combined String" << combined << endl;
+}
+int main()
+{
+    First obj1("Hello");
+    Second obj2("Word!");
+
+    combine(obj1, obj2);
+    return 0;
+
+}
+===================================================================================================================
+
+
+/*2)
+class First
+{
+    int a;
+};
+class Second
+{
+public:
+    void fun1() {}
+    void fun2() {}
+    void fun3() {}
+};
+
+Above code is incomplete.
+Make sure that all the member functions of "Second" will access "a".*/
+
+
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+class Second;
+class First
+{
+private:
+    int a;
+public:
+    First(int val) :a(val)
+    {
+
+    }
+    friend class Second;
+};
+class Second
+{
+public:
+    void fun1(const First&obj)
+    {
+        cout << "fun1 :" << obj.a << endl;
+    }
+    void fun2(const First& obj)
+    {
+        cout << "fun2 :" << obj.a << endl;
+    }
+    void fun3(const First& obj)
+    {
+        cout << "fun3 :" << obj.a << endl;
+    }
+};
+
+int main()
+{
+    First obj1(45);
+    Second obj2;
+
+    obj2.fun1(obj1);
+    obj2.fun2(obj1);
+    obj2.fun3(obj1);
+
+    return 0;
+}
+================================================================================================================
+//// Conversion Assingment
+/*1) class Hour
+{
+	private:
+		int hr;
+	public:
+		parameterized constructor
+		disp method
+}
+class Minute
+{
+	private:
+		int mnt;
+	public:
+		parameterized constructor
+		disp method
+}
+
+write a program to convert minutes to hours.
+(Use operator= for conversion.)*/
+
+
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+
+
+
+class Hour
+{
+private:
+	int hr;
+public:
+	
+	Hour(int hr)
+	{
+		this->hr = hr;
+		cout << "in Param 1: "<<endl;
+	}
+
+	void disp()
+	{
+		cout << "In Disp1 :"<<hr<<endl;
+	}
+};
+
+class Minute
+{
+private:
+	int min;
+public:
+
+	
+	Minute(int min)
+	{
+		this->min = min;
+		cout << "param2 :"<<endl;
+}
+	void disp()
+	{
+		cout << "In disp2 :"<<min<<endl;
+	}
+	operator Hour()
+	{
+		Hour r(min / 60);
+		return r;
+	}
+
+};
+
+int main()
+{
+	Hour h(10);
+	Minute m(360);
+	m.disp();
+	h.disp();
+	h = m;
+	h.disp();
+	m.disp();
+	return 0;
+}
+
+========================================================================================================================
+/*2)write a number class with
+int num;
+void disp(){}
+
+u should be able to do following
+
+number n1(20);
+int k=-n1;
+
+n1+=5;
+n1.disp()
+
+number n2(35);
+if(n1!=n2)
+{
+	some message
+}
+
+
+
+number n3(12);
+
+if(n3 < n1)
+{
+	some message
+}
+
+number n4;
+
+n4=n2*n3;*/
+
+
+#include <iostream>
+using namespace std;
+#include <cstring>
+
+class number
+{
+private:
+	int num;
+public:
+	number()
+	{
+		cout << "in default constructor :"<<endl;
+	}
+	number(int num)
+	{
+		this->num = num;
+	}
+	void disp()
+	{
+		cout << "in disp method" << num << endl;
+	}
+
+	int operator -()
+	{
+		this->num = -1 * this->num;
+		return num;
+	}
+	number& operator +=(int val)
+	{
+		num += val;
+		return *this;
+	}
+	bool operator !=(number& ref)
+	{
+		return num != ref.num;
+	}
+	bool operator <(number& ref)
+	{
+		return num < ref.num;
+	}
+    
+	number operator*(number& ref)
+	{
+		return number(num * ref.num);
+	}
+
+
+};
+
+int main()
+{
+	number n1(20);
+	int k =-n1;
+	n1 += 5;
+	n1.disp();
+
+	number n2(35);
+	if (n1 != n2)
+	{
+		cout << "(n1 != n2)"<<endl;
+	}
+	number n3(12);
+
+	if (n3 < n1)
+	{
+		cout << "(n1 != n2)"<<endl;
+	}
+
+	number n4;
+	n4 = n2 * n3;
+	n4.disp();	
+
+
+}
+====================================================================================================================
+//// Operator overloding
+
+/* 1) class Number
+   {
+       int num;
+   }
+In the main function,
+Number n1(8),n2(4),n3(20),n4(6),n5;
+n5=n1-n2
+n5=n3/n4;
+n5=n1*n3 */
+
+
+
+#include <iostream>
+using namespace std;
+
+class Number
+{
+private:
+    int num;
+public:
+    Number()
+    {
+
+    }
+    Number(int k):num(k)
+    {
+        num = num;
+    }
+    Number operator-(Number& ref)
+    {
+        return Number(this->num - ref.num);
+    }
+    Number operator/(Number& ref)
+    {
+        return Number(this->num - ref.num);
+    }
+    Number operator*(Number& ref)
+    {
+        return Number(this->num * ref.num);
+    }
+};
+
+void main()
+{
+    Number n1(8), n2(4), n3(20), n4(6);
+    Number n5;
+
+    n5 = n1 - n2;
+    n5 = n3 / n4;
+    n5 = n1 * n3;
+
+    cout << "Result is:";
+   // cout << n5 ;  
+}
+=====================================================================================================================
+/* 2) class sample
+   {
+	private:
+		char ch;
+	public:
+		sample(char ch)
+		{
+			this->ch=ch;
+		}
+  };
+
+given above class.
+
+write a global function "display" which will access "ch" directly and display it.
+call this function from main function. */
+
+
+
+#include <iostream>
+using namespace std;
+
+class sample
+{
+private:
+	char ch;
+public:
+	sample(char ch)
+	{
+		this->ch = ch;
+	}
+	friend void disp(sample&);
+  };
+
+void disp(sample& ref)
+{
+	cout << ref.ch << endl;
+}
+
+int main()
+{
+	sample s('x');
+	disp(s);
+}
+===========================================================================================================
+/* 3) Given
+
+class Module1
+{
+	int duration;
+	public:
+		Module1(int k)
+		{
+			duration=k;
+		}
+};
+
+class Module2
+{
+	int duration;
+	public:
+		Module2(int k)
+		{
+			duration=k;
+		}
+};		
+	
+write a global function "check" which will take 2 modules (i.e. Module1 and Module2 ) and check whether Modules are same or not.
+call this "check" function from main function. */
+
+
+
+#include <iostream>
+using namespace std;
+
+class Module2;
+class Module1
+{
+	int duration;
+public:
+	Module1(int k)
+	{
+		duration = k;
+	}
+	friend void check( Module1& module1,  Module2& module2);
+};
+
+class Module2
+{
+	int duration;
+public:
+	Module2(int k)
+	{
+		duration = k;
+	}
+	friend void check( Module1& module1,  Module2& module2);
+};
+
+void check( Module1& module1,  Module2& module2)
+{
+	if (module1.duration == module2.duration)
+	{
+		cout << "module is same";
+	}
+	else
+		cout << "module is not same";
+}
+void main()
+{
+	Module1 m1(15);
+	Module2 m2(20);
+
+	check(m1, m2);
+}
+=====================================================================================================================
+/* 4) Define a class , write two member functions 
+	void disp1(){ //some code }
+	void disp2(){ // some code }
+
+	Try to call disp1   from    disp2. */
+#include <iostream>
+using namespace std;
+class myclass
+{
+public:
+	void displ1()
+	{
+		cout << "in disp 1." << endl;
+	}
+	void displ2()
+	{
+		displ1();
+		cout << "in disp 2." << endl;
+
+	}
+};
+int main()
+{
+	myclass m;
+	m.displ2();
+}
+=====================================================================================================================
+/* 5) Define a class with constructor and  member function
+
+	create object, call member function
+	now create a reference to that object, and using that reference try to call member function */
+
+#include <iostream>
+using namespace std;
+class myclass
+{
+public:
+	myclass()
+	{
+		cout << "in constructor."<<endl;
+	}
+	void disp()
+	{
+		cout << "in disp function."<<endl;
+	}
+};
+
+void main()
+{
+	myclass m1;
+	m1.disp();
+
+	myclass& ref = m1;
+	ref.disp();
+}
+=====================================================================================================================

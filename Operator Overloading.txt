@@ -1,0 +1,280 @@
+1) class Number
+   {
+       int num;
+   }
+In the main function,
+Number n1(8),n2(4),n3(20),n4(6),n5;
+n5=n1-n2
+n5=n3/n4;
+n5=n1*n3
+
+
+
+#include<iostream>
+using namespace std;
+
+class Number
+{
+    int num;
+public:
+    Number()
+    {
+
+    }
+    Number(int num)
+    {
+        this->num = num;
+    }
+    int getnum()
+    {
+        return num;
+    }
+
+    Number operator-(Number& ref)
+    {
+        return Number(num - ref.num);
+    }
+
+    Number operator/(Number& ref)
+    {
+        return Number(num / ref.num);
+    }
+    Number operator*(Number& ref)
+    {
+        return Number(num * ref.num);
+    }
+};
+
+
+void main()
+{
+    Number n1(8), n2(4), n3(20), n4(6), n5;
+    n5 = n1 - n2;   // n1.operator-(n2)
+    cout << "Substraction is : " << n5.getnum() << endl;
+    n5 = n3 / n4;
+    cout << "Division is : " << n5.getnum() << endl;
+    n5 = n1 * n3;
+    cout << "Multiplication is : " << n5.getnum() << endl;
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+2) class sample
+   {
+	private:
+		char ch;
+	public:
+		sample(char ch)
+		{
+			this->ch=ch;
+		}
+  };
+
+given above class.
+
+write a global function "display" which will access "ch" directly and display it.
+call this function from main function.
+
+
+
+
+#include<iostream>
+using namespace std;
+
+class sample
+{
+private:
+	char ch;
+public:
+	sample(char ch)
+	{
+		this->ch = ch;
+	}
+	friend void disp(sample&);
+	friend ostream& operator<<(ostream&, const sample&);
+};
+
+ostream& operator<<(ostream& os, const sample& ref)
+{
+	os << ref.ch;
+	return os;
+}
+void disp(sample& ref)
+{
+	cout << "Character is : " << ref << endl;
+}
+void main()
+{
+	sample s('A');
+	disp(s);
+}
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+#include<iostream>
+using namespace std;
+
+class sample
+{
+private:
+	char ch;
+public:
+	sample(char ch)
+	{
+		this->ch = ch;
+	}
+	friend void disp(sample&);
+};
+void disp(sample& ref)
+{
+	cout << "Character is : " << ref.ch << endl;
+}
+void main()
+{
+	sample s('A');
+	disp(s);
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3) Given
+
+class Module1
+{
+	int duration;
+	public:
+		Module1(int k)
+		{
+			duration=k;
+		}
+};
+
+class Module2
+{
+	int duration;
+	public:
+		Module2(int k)
+		{
+			duration=k;
+		}
+};		
+	
+write a global function "check" which will take 2 modules (i.e. Module1 and Module2 ) and check whether Modules are same or not.
+call this "check" function from main function.	
+
+
+#include<iostream>
+using namespace std;
+
+class Module2;
+class Module1
+{
+	int duration;
+public:
+	Module1(int k)
+	{
+		duration = k;
+	}
+	friend void chech(Module1&, Module2&);
+	friend bool operator==(Module1&, Module2&);
+};
+
+class Module2
+{
+	int duration;
+public:
+	Module2(int k)
+	{
+		duration = k;
+	}
+	friend void chech(Module1&, Module2&);
+	friend bool operator==(Module1&, Module2&);
+};
+
+bool operator==(Module1& m1, Module2& m2)
+{
+	return m1.duration == m2.duration;
+}
+
+void chech(Module1& m1, Module2& m2)
+{
+	if (m1 == m2)
+	{
+		cout << "Modules have the same duration." << endl;
+	}
+	else
+	{
+		cout << "Modules don't have the same duration." << endl;
+	}
+}
+void main()
+{
+	Module1 m1(10);
+	Module2 m2(20);
+	chech(m1, m2);
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+4) Define a class , write two member functions 
+	void disp1(){ //some code }
+	void disp2(){ // some code }
+
+	Try to call disp1   from    disp2.
+
+
+
+#include<iostream>
+using namespace std;
+
+class sample
+{
+	void disp1()
+	{
+		cout << "disp1" << endl;
+	}
+	void disp2()
+	{
+		disp1();
+		cout << "disp2" << endl;
+	}
+	friend void disp(sample&);
+};
+void disp(sample& s)
+{
+	s.disp2();
+}
+void main()
+{
+	sample s;
+	disp(s);
+}
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------
+5) Define a class with constructor and  member function
+
+	create object, call member function
+	now create a reference to that object, and using that reference try to call member function
+
+#include<iostream>
+using namespace std;
+
+class sample
+{
+public:
+	sample()
+	{
+
+	}
+	void disp1()
+	{
+		cout << "disp1" << endl;
+	}
+
+};
+
+void main()
+{
+	sample s;
+	s.disp1();
+	sample& ref = s;
+	ref.disp1();
+}
+

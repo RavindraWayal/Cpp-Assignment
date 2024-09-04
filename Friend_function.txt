@@ -1,0 +1,108 @@
+1) class First
+   {
+      char str1[20];
+   };
+   class Second
+   {
+      char str2[20];
+   };
+write a friend function,which will create a  new string containing str1,str2 and also display it.
+
+
+
+#include<iostream>
+using namespace std;
+static int cnt=0;
+
+class Second;
+class First
+{
+	char str1[20] = "Shubham ";
+	friend void disp(First&, Second&);
+};
+class Second
+{
+	char str2[20] = "Zargad";
+	friend void disp(First&, Second&);
+};
+void disp(First& f, Second& s)
+{
+	char str3[40];
+	strcpy_s(str3, strlen(f.str1)+1, f.str1);
+	strcat_s(str3, sizeof(str3), s.str2);
+	cout << str3 << endl;
+}
+int main()
+{
+	First f;
+	Second s;
+	disp(f, s);
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2) 
+class First
+{
+	int a;
+};
+class Second
+{
+	public:
+		void fun1(){}
+		void fun2(){}
+		void fun3(){}
+};
+
+Above code is incomplete.
+Make sure that all the member functions of "Second" will access "a".
+
+
+
+#include<iostream>
+using namespace std;
+ 
+
+class First
+{
+private:
+    int a = 10;
+    friend class Second;
+};
+
+class Second
+{
+    First f;
+public:
+    void fun1()
+    {
+        cout << "a: " << f.a << endl;
+    }
+
+    void fun2()
+    {
+        cout << "a: " << f.a << endl;
+    }
+
+    void fun3()
+    {
+        cout << "a: " << f.a << endl;
+    }
+};
+
+int main()
+{
+    Second s;
+    s.fun1();
+    s.fun2();
+    s.fun3();
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+

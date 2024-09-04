@@ -1,0 +1,326 @@
+1) 
+class course
+{
+	//here
+};
+class DacCourse:public course
+{
+	// here
+};
+
+you should be able to say following
+
+course *c=new course;
+c->fees(); // course version should be called
+c=new DacCourse;
+c->fees();  // DacCourse version should be called
+-------------------------------------------------
+
+#include<iostream>
+using namespace std;
+
+class course
+{
+public:
+	virtual void fees()
+	{
+		cout << "course fee" << endl;
+	}
+};
+class DacCourse :public course
+{
+	void fees()
+	{
+		cout << "DacCourse fee" << endl;
+	}
+};
+void main()
+{
+	course* c = new course;
+	c->fees(); // course version should be called
+	c = new DacCourse;
+	c->fees(); // DacCourse version should be called
+	delete c;
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+2) 
+Create a base class FourWheeler. Declare pure virtual function “void start()” in it. 			
+Define following sub classes for this class. A) Qualis b) Sumo c) Volvo 					
+Define “start” function in these classes.			
+In main function , create array of pointer to FourWheeler which will contain objects of these three sub classes. 
+Now traverse the array and call all the child class methods.
+
+#include<iostream>
+using namespace std;
+
+class FourWheeler
+{
+public:
+	FourWheeler()
+	{
+		cout << "FourWheeler Constructor" << endl;
+	}
+	virtual ~FourWheeler()
+	{
+		cout << "FourWheeler Destructor" << endl;
+	}
+	virtual void start() = 0;
+};
+class Qualis :public FourWheeler
+{
+public:
+	Qualis()
+	{
+		cout << "Qualis Constructor" << endl;
+	}
+	~Qualis()
+	{
+		cout << "Qualis Destructor" << endl;
+	}
+	void start()
+	{
+		cout << "Start Qualis" << endl;
+	}
+};
+class Sumo :public FourWheeler
+{
+public:
+	Sumo()
+	{
+		cout << "Sumo Constructor" << endl;
+	}
+	~Sumo()
+	{
+		cout << "Sumo Destructor" << endl;
+	}
+	void start()
+	{
+		cout << "Start Sumo" << endl;
+	}
+};
+class Volvo :public FourWheeler
+{
+public:
+	Volvo()
+	{
+		cout << "Volvo Constructor" << endl;
+	}
+	~Volvo()
+	{
+		cout << "Volvo Destructor" << endl;
+	}
+	void start()
+	{
+		cout << "Start Volvo" << endl;
+	}
+};
+void main()
+{
+	FourWheeler* f[3];
+	f[0] = new Qualis();
+	f[1] = new Sumo();
+	f[2] = new Volvo();
+	
+	for (int i = 0;i < 3;i++)
+	{
+		f[i]->start();
+	}
+	
+	for (int i = 0;i < 3;i++)
+	{
+		delete f[i];
+	}
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+3)
+Create a base class “Subject”.Declare pure virtual function “void maxmarks()” in it.  
+Define following sub classes for this class. A) Maths b) History c) English.	
+Define “maxmarks” in these classes.
+
+now write a global function "show" which will accept "subject class pointer" as an argument. 
+this function should be able to call "maxmarks()" of any child class which is passed.
+From main function try to call this function by passing various child classes.
+
+#include<iostream>
+using namespace std;
+
+class Subject
+{
+public:
+	virtual void maxmarks() = 0;
+};
+class Maths:public Subject
+{
+public:
+	void maxmarks()
+	{
+		cout << "Maths maxmarks" << endl;
+	}
+};
+class History :public Subject
+{
+public:
+	void maxmarks()
+	{
+		cout << "History maxmarks" << endl;
+	}
+};
+class English :public Subject
+{
+public:
+	void maxmarks()
+	{
+		cout << "English maxmarks" << endl;
+	}
+};
+void show(Subject* s)
+{
+	s->maxmarks();
+}
+void main()
+{
+	Subject* s[3] = { new Maths,new History,new English };
+	/*s[0] = new Maths();
+	s[1] = new History();
+	s[2] = new English();*/
+	for (int i = 0;i < 3;i++)
+	{
+		show(s[i]);
+	}
+	for (int i = 0;i < 3;i++)
+	{
+		delete s[i];
+	}
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+4) same as above except it has to be done using reference of parent class.
+
+#include<iostream>
+using namespace std;
+
+class Subject
+{
+public:
+	virtual void maxmarks() = 0;
+};
+class Maths:public Subject
+{
+public:
+	void maxmarks()
+	{
+		cout << "Maths maxmarks" << endl;
+	}
+};
+class History :public Subject
+{
+public:
+	void maxmarks()
+	{
+		cout << "History maxmarks" << endl;
+	}
+};
+class English :public Subject
+{
+public:
+	void maxmarks()
+	{
+		cout << "English maxmarks" << endl;
+	}
+};
+void show(Subject& s)
+{
+	s.maxmarks();
+}
+void main()
+{
+	Subject* s[3] = { new Maths,new History,new English };
+	/*s[0] = new Maths();
+	s[1] = new History();
+	s[2] = new English();*/
+	for (int i = 0;i < 3;i++)
+	{
+		show(*s[i]);
+	}
+	for (int i = 0;i < 3;i++)
+	{
+		delete s[i];
+	}
+}
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+5) create an abstract class Shape with
+	virtual void display()
+	{
+		cout<<"display on the canvas"<<endl;
+	}
+	and
+	pure virtual function (contract) void draw() 
+functions.
+
+now derive 3 classes from Shape
+	Circle,Triangle and Rectangle
+in the main function create array of pointer to Shape class and store all the child class objects addresses inside it. 
+Traverse the array and invoke "display()" and "draw()" functions.
+
+
+#include<iostream>
+using namespace std;
+
+class Shape
+{
+public:
+	virtual void display()
+	{
+		cout << "display on the canvas" << endl;
+	}
+	virtual void draw() = 0;
+};
+class Circle:public Shape
+{
+	void display()
+	{
+		cout << "display Circle" << endl;
+	}
+	void draw()
+	{
+		cout << "Draw Circle" << endl;
+	}
+};
+class Triangle :public Shape
+{
+	void display()
+	{
+		cout << "display Triangle" << endl;
+	}
+	void draw()
+	{
+		cout << "Draw Triangle" << endl;
+	}
+};
+class Rectangle :public Shape
+{
+	void display()
+	{
+		cout << "display Rectangle" << endl;
+	}
+	void draw()
+	{
+		cout << "Draw Rectangle" << endl;
+	}
+};
+int main()
+{
+	Shape* s[3] = { new Circle,new Triangle,new Rectangle };
+	for (int i = 0;i < 3;i++)
+	{
+		s[i]->display();
+		s[i]->draw();
+	}
+	for (int i = 0;i < 3;i++)
+	{
+		delete s[i];
+	}
+	return 0;
+}
+
